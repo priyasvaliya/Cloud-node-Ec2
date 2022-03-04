@@ -4,6 +4,7 @@ var bodyParser = require('body-parser')
 
 const { response } = require('express')
 const AWS=require('aws-sdk');
+const { json } = require('body-parser');
 const KEY_ID= "ASIA2XWSATAKFMYKLDXS"; 
 const SECRET_KEY="4vsnoC8OZ9WJH+wk4aDjCXIbslNeir3JNFRqCSVn";
 const TOKEN="FwoGZXIvYXdzEA4aDPsixpfUAzatXvZQXiLAAXP6zwSjee4ey4uQrswX0HQ3VdsVDbckRBU99JYDzfc4d5XUnLUcIVCnwqblGfcr5RRVMjBXrzCAK2zA0nXdmBgLUKRSTy6GciNdciYfniUjjXzwqx79y2w1TwGPVvVPjgCDzxz7VFRAl4WL1QzZAwU7+/rLCYbp86G8q/ra02BM+CzKi7wW16aMAWIv2yn8XkkpPwvsLvv6yAVAvXwGbusaWJdnvlGbTavfGEwThjpeeWr3WN/Y5Z4KR80BOqaFfijU8YmRBjIt95Znzn+HKlz3Z+cLypeBCS7Abg3qV2GzdE/t7Zci41d2S3KUilST83xkRUye";
@@ -42,14 +43,11 @@ app.post('/storedata', async (req, res) => {
     console.log(req.body)
   } else {
     console.log(req.body.data)
-    var response = {
-      data: req.body.data,
-    }
-    console.log(response)
+    
     const params = {
         Bucket: 'b00884335', // pass your bucket name
         Key: 'data.json', // file will be saved as testBucket/contacts.csv
-        Body: response
+        Body: JSON.stringify(req.body),
     };
     s3.upload(params, function(s3Err, data) {
         if (s3Err) throw s3Err
@@ -58,7 +56,7 @@ app.post('/storedata', async (req, res) => {
         validresponse={
             s3uri: url,
         } 
-        console.log(validresponse)
+        console.log(params)
         res.status(200).json(validresponse)
     });
        
