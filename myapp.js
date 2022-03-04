@@ -50,13 +50,17 @@ app.post('/storedata', async (req, res) => {
     };
     s3.upload(params, function(s3Err, data) {
         if (s3Err) throw s3Err
-        url=`${data.Location}`
+        url= `${data.Location}`;
         console.log(`File uploaded successfully at ${data.Location}`)
     });
+    
+    var validresponse={
+        s3uri:url
 
+    }
     console.log(response)
     //const finalResponse = await makePostRequest(response)
-    res.status(200).send(url)
+    return res.status(200).json(validresponse)
   }
 })
 
