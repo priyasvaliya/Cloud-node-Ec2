@@ -4,9 +4,9 @@ var bodyParser = require('body-parser')
 
 const { response } = require('express')
 const AWS=require('aws-sdk');
-const KEY_ID= "ASIA2XWSATAKMQOJ5XXE"; 
-const SECRET_KEY="kZTL43SqxhdeWJmy3vrxZYV0s/w9kc30iwl2czPQ";
-const TOKEN="FwoGZXIvYXdzEAoaDJmTQvYcbWUuGs8D9CLAAb6ckzKSoYyc0oW19Bf4MeL6cdG3nVievuz3wzDNfx9HznccmFIEZ6YqiSvbDy6uWpFZjIAM3GAem9+YlBt2vzEl2HZzhx6AedUxL3ophcm1s3gKhOekxOv11cNq1fzja0f0M45dVsB/O7BAXuWCQiaxv6kSkQVC6aMQvjLaADTgykFua39oRIh4YUf1AuNuhVp6Th7/2c822dsfeONej/NQ9IjB9+oGAdeW9zdaUGHxwu77SKUST2dPzR6vb8vypyiK/oiRBjIte6JppHBcu64+lfRZ8LKDqnJD2R0kcuOp+7UMC0s/hT1Ii+YS4qmucLG1oVFN";
+const KEY_ID= "ASIA2XWSATAKFMYKLDXS"; 
+const SECRET_KEY="4vsnoC8OZ9WJH+wk4aDjCXIbslNeir3JNFRqCSVn";
+const TOKEN="FwoGZXIvYXdzEA4aDPsixpfUAzatXvZQXiLAAXP6zwSjee4ey4uQrswX0HQ3VdsVDbckRBU99JYDzfc4d5XUnLUcIVCnwqblGfcr5RRVMjBXrzCAK2zA0nXdmBgLUKRSTy6GciNdciYfniUjjXzwqx79y2w1TwGPVvVPjgCDzxz7VFRAl4WL1QzZAwU7+/rLCYbp86G8q/ra02BM+CzKi7wW16aMAWIv2yn8XkkpPwvsLvv6yAVAvXwGbusaWJdnvlGbTavfGEwThjpeeWr3WN/Y5Z4KR80BOqaFfijU8YmRBjIt95Znzn+HKlz3Z+cLypeBCS7Abg3qV2GzdE/t7Zci41d2S3KUilST83xkRUye";
 const s3= new AWS.S3({  
     accessKeyId:KEY_ID,
     secretAccessKey: SECRET_KEY,
@@ -32,6 +32,9 @@ const uploadFile = (response) => {
   };
 
 var url; 
+var validresponse={
+    
+}
 app.post('/storedata', async (req, res) => {
   if (req.body.data == null) {
     res.setHeader('Content-Type', 'application/json')
@@ -52,15 +55,13 @@ app.post('/storedata', async (req, res) => {
         if (s3Err) throw s3Err
         url= `${data.Location}`;
         console.log(`File uploaded successfully at ${data.Location}`)
+        validresponse={
+            s2uri: url,
+        } 
+        console.log(validresponse)
+        res.status(200).json(validresponse)
     });
-    
-    var validresponse={
-        s3uri:url
-
-    }
-    console.log(response)
-    //const finalResponse = await makePostRequest(response)
-    return res.status(200).json(validresponse)
+       
   }
 })
 
