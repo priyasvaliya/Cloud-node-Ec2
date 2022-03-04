@@ -56,7 +56,7 @@ app.post('/storedata', async (req, res) => {
         url= `${data.Location}`;
         console.log(`File uploaded successfully at ${data.Location}`)
         validresponse={
-            s2uri: url,
+            s3uri: url,
         } 
         console.log(validresponse)
         res.status(200).json(validresponse)
