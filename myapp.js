@@ -49,7 +49,7 @@ app.post('/storedata', async (req, res) => {
     const params = {
         Bucket: 'b00884335', // pass your bucket name
         Key: 'data.json', // file will be saved as testBucket/contacts.csv
-        Body: JSON.stringify(response)
+        Body: response
     };
     s3.upload(params, function(s3Err, data) {
         if (s3Err) throw s3Err
