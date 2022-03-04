@@ -1,7 +1,7 @@
 'use strict'
 const express = require('express')
 var bodyParser = require('body-parser')
-const axios = require('axios')
+
 const { response } = require('express')
 const AWS=require('aws-sdk');
 const KEY_ID= "ASIA2XWSATAKMQOJ5XXE"; 
