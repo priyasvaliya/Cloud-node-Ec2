@@ -2,7 +2,6 @@
 const express = require('express')
 var bodyParser = require('body-parser')
 
-const { response } = require('express')
 const AWS=require('aws-sdk');
 const { json } = require('body-parser');
 const KEY_ID= "ASIA2XWSATAKFMYKLDXS"; 
@@ -15,8 +14,25 @@ const s3= new AWS.S3({
     region:"us-east-1"
 });
 
-
-
+const request = require('request');
+  
+const options = {
+    url: 'http://3.88.132.229/begin',
+    json: true,
+    body: {
+        "banner": "B00884335",
+        "ip": "54.89.180.134"
+     },
+     
+};
+   
+request.post(options, (err, res, body) => {
+    if (err) {
+        return console.log(err);
+    }
+    console.log(`Status: ${res.statusCode}`);
+    console.log(body);
+});
 
 // Constants
 const PORT = 80
@@ -26,11 +42,6 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-const uploadFile = (response) => {
-   
-       
-    
-  };
 
 var url; 
 var validresponse={
@@ -40,19 +51,16 @@ app.post('/storedata', async (req, res) => {
   if (req.body.data == null) {
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify([{ data: 'nil', error: 'Invalid JSON input.' }]))
-    console.log(req.body)
   } else {
-    console.log(req.body.data)
     
     const params = {
-        Bucket: 'b00884335', // pass your bucket name
-        Key: 'data.json', // file will be saved as testBucket/contacts.csv
+        Bucket: 'b00884335', 
+        Key: 'data.json', 
         Body: req.body.data,
     };
     s3.upload(params, function(s3Err, data) {
         if (s3Err) throw s3Err
         url= `${data.Location}`;
-        console.log(`File uploaded successfully at ${data.Location}`)
         validresponse={
             s3uri: url,
         } 
